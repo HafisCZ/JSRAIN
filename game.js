@@ -658,6 +658,9 @@ class Properties {
 			new ArmorSkill(),
 			new ExperienceSkill()
 		];
+		
+		this.exp = true;
+		this.imp = true;
 	}
 	
 	resetPlayer() {
@@ -674,7 +677,7 @@ class Properties {
 		};
 	}
 	
-	load() {	
+	load() {
 		this.upgrades = localStorage.getItem('prop_upgrade') ? JSON.parse(localStorage.getItem('prop_upgrade')) : {
 			maxhealth: 3,
 			level: 1,
@@ -698,6 +701,8 @@ class Properties {
 		};
 		
 		this.resetPlayer();
+		
+		this.exp = true;
 	}
 	
 	addDamage() {
@@ -737,7 +742,7 @@ class Properties {
 		if (this.player.health > this.player.armor) {
 			this.player.armor += Math.min(this.player.health - this.player.armor, amount);
 		}
-	}		
+	}
 	
 	activate(entity) {
 		if (this.upgrades.selected_skill > 0) {
@@ -762,6 +767,8 @@ class Properties {
 	save() {
 		localStorage.setItem('prop_upgrade', JSON.stringify(this.upgrades));
 		localStorage.setItem('prop_statistics', JSON.stringify(this.stats));
+		
+		this.imp = true;
 	}
 	
 	tick() {
@@ -779,6 +786,31 @@ class Properties {
 			if (--this.player.skill_burnout < 0) {
 				this.player.energy = 0;
 				this.player.active_skill = false;
+			}
+		}
+	}
+	
+	exportJSON() {
+		if (this.exp) {
+			this.exp = false;
+			
+			var something = window.open("data:text/json," + encodeURIComponent(JSON.stringify({
+				stats: this.stats,
+				upgrades: this.upgrades
+			})), "_blank");
+		}
+	}
+	
+	importJSON() {
+		if (this.imp) {
+			this.imp = false;
+			
+			var data = JSON.parse(prompt('Save data', ''));
+			
+			if (data.stats && data.upgrades) {
+				this.stats = data.stats;
+				this.upgrades = data.upgrades;
+				this.save();
 			}
 		}
 	}
@@ -922,6 +954,13 @@ class Menu extends Page {
 			level.setState('help');
 		});
 		
+		this.but5 = new Button(100, 700 - 50, 100, 25, 'EXPORT', function() {
+			level.properties.exportJSON(); 
+		});
+		
+		this.but6 = new Button(100 + 100, 700 - 50, 100, 25, 'IMPORT', function() {
+			level.properties.importJSON();
+		});
 	}
 	
 	tick(kb) {
@@ -929,6 +968,8 @@ class Menu extends Page {
 		this.but2.tick(kb);
 		this.but3.tick(kb);
 		this.but4.tick(kb);
+		this.but5.tick(kb);
+		this.but6.tick(kb);
 	}
 	
 	draw(gc) {
@@ -942,6 +983,8 @@ class Menu extends Page {
 		this.but2.draw(gc);
 		this.but3.draw(gc);
 		this.but4.draw(gc);
+		this.but5.draw(gc);
+		this.but6.draw(gc);
 	}
 }
 
