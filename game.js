@@ -701,8 +701,6 @@ class Properties {
 		};
 		
 		this.resetPlayer();
-		
-		this.exp = true;
 	}
 	
 	addDamage() {
@@ -767,8 +765,6 @@ class Properties {
 	save() {
 		localStorage.setItem('prop_upgrade', JSON.stringify(this.upgrades));
 		localStorage.setItem('prop_statistics', JSON.stringify(this.stats));
-		
-		this.imp = true;
 	}
 	
 	tick() {
