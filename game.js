@@ -1432,6 +1432,26 @@ class LevelWrapper {
 	}
 }
 
+loader.load('res/entity/player.png');
+loader.load('res/entity/acid.png');
+loader.load('res/entity/energy.png');
+loader.load('res/entity/armor.png');
+loader.load('res/entity/star.png');
+
+loader.load('res/gui/bars/frame.png');
+loader.load('res/gui/bars/health.png');
+loader.load('res/gui/bars/armor.png');
+loader.load('res/gui/bars/experience.png');
+loader.load('res/gui/bars/energy.png');
+
+loader.load('res/gui/icons/ability.png');
+loader.load('res/gui/icons/health.png');
+loader.load('res/gui/icons/experience.png');
+loader.load('res/gui/icons/energy.png');
+loader.load('res/gui/icons/frame.png');
+
+loader.load('res/background/background.png');
+
 window.onload = function() {
 	var keyboard = new KeyEventAdapter();
 	document.addEventListener('keydown', (evt) => keyboard.set(evt.key, true), true);
